@@ -11,5 +11,3 @@ Require: SDL2, SDL2_image
 ## Note
 
 The configuration currently supports for MacOS only
-
-I use [Entity Component System](https://en.wikipedia.org/wiki/Entity_component_system) for the architectural style of this game

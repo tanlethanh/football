@@ -11,31 +11,19 @@ class ColliderComponent;
 class Game
 {
 public:
-	Game();
-	~Game();
+    Game();
+    ~Game();
 
-	void init(const char *title, int width, int height, bool fullscreen);
-
-	void handleEvents();
-	void update();
-	bool running() { return isRunning; }
-	void render();
-	void clean();
-
-	static SDL_Renderer *renderer;
-	static SDL_Event event;
-	static bool isRunning;
-	static SDL_Rect camera;
-	static AssetManager *assets;
-	enum groupLabels : std::size_t
-	{
-		groupMap,
-		groupPlayers,
-		groupColliders,
-		groupProjectiles
-	};
+    void init(const char *title, int width, int height, bool fullscreen);
+    void handleEvents();
+    void update();
+    bool running() { return isRunning; }
+    void render();
+    void clean();
 
 private:
-	int cnt = 0;
-	SDL_Window *window;
+    SDL_Renderer *renderer;
+    SDL_Event event;
+    bool isRunning;
+    SDL_Window *window;
 };

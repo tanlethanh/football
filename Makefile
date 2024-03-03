@@ -3,7 +3,9 @@ rootdir := $(realpath .)
 
 # Compiler and flags
 CXX := g++ -std=c++11
-CXXFLAGS := -Wall -F $(rootdir)/frameworks -I$(rootdir)/ECS
+
+# -I$(rootdir)/EC
+CXXFLAGS := -Wall -F $(rootdir)/frameworks 
 LDFLAGS := -F $(rootdir)/frameworks -Wl,-rpath,$(rootdir)/frameworks
 
 # List of frameworks to link against
@@ -14,7 +16,7 @@ TARGET := main
 
 # List of source files
 SRCS := $(wildcard src/*.cpp)
-SRCS += $(wildcard src/ECS/*.cpp)  # Add sub1 source files
+# SRCS += $(wildcard src/ECS/*.cpp)  # Add sub1 source files
 
 # Generate object file names from source files
 OBJS := $(SRCS:.cpp=.o)
@@ -36,12 +38,8 @@ $(TARGET): $(OBJS_BUILD)
 $(BUILDDIR)/%.o: src/%.cpp | $(BUILDDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(BUILDDIR)/%.o: src/ECS/%.cpp | $(BUILDDIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Rule to create the build directory
-$(BUILDDIR):
-	mkdir -p $(BUILDDIR)
+# $(BUILDDIR)/%.o: src/ECS/%.cpp | $(BUILDDIR)
+# 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Rule to run the executable
 run: $(TARGET)

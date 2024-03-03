@@ -3,4 +3,7 @@ main.o
 
 frameworks/**.framework
 
+build
 vendor
+
+.DS_Store
