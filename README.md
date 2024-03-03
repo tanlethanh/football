@@ -1,3 +1,5 @@
+# Football
+
 A mini football game written in C++ with SDL 2 framework
 
 ## Setup
