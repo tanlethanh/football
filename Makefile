@@ -1,23 +1,60 @@
-rootdir = $(realpath .)
+# Define the root directory
+rootdir := $(realpath .)
 
-CXX = g++
+# Compiler and flags
+CXX := g++ -std=c++11
+CXXFLAGS := -Wall -F $(rootdir)/frameworks -I$(rootdir)/ECS
+LDFLAGS := -F $(rootdir)/frameworks -Wl,-rpath,$(rootdir)/frameworks
 
-FRAMEWORKS = -framework SDL2 -framework SDL2_image
-LC_RPATH = -Wl,-rpath,$(rootdir)/frameworks
+# List of frameworks to link against
+FRAMEWORKS := -framework SDL2 -framework SDL2_image
 
-CXXFLAGS = -Wall -F $(rootdir)/frameworks
-LDFLAGS = $(FRAMEWORKS) -F $(rootdir)/frameworks $(LC_RPATH)
+# Define the name of the executable
+TARGET := main
 
-run: all
-	./main
+# List of source files
+SRCS := $(wildcard src/*.cpp)
+SRCS += $(wildcard src/ECS/*.cpp)  # Add sub1 source files
 
-all: main
+# Generate object file names from source files
+OBJS := $(SRCS:.cpp=.o)
 
-main: main.o
-	$(CXX) main.o -o main $(LDFLAGS)
+# Define the build directory
+BUILDDIR := build
 
-main.o:
-	$(CXX) $(CXXFLAGS) -c ./src/main.cpp -o main.o
+# List of object files in the build directory
+OBJS_BUILD := $(addprefix $(BUILDDIR)/, $(notdir $(OBJS)))
 
+# Default target
+all: $(TARGET)
+
+# Rule to build the executable
+$(TARGET): $(OBJS_BUILD)
+	$(CXX) $^ -o $@ $(LDFLAGS) $(FRAMEWORKS)
+
+# Rule to compile each source file
+$(BUILDDIR)/%.o: src/%.cpp | $(BUILDDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(BUILDDIR)/%.o: src/ECS/%.cpp | $(BUILDDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Rule to create the build directory
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
+
+# Rule to run the executable
+run: $(TARGET)
+	./$(TARGET)
+
+# Rule to clean up generated files
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
+
+# Rule to clean up generated files
 clean:
-	rm main.o main
+	rm -rf $(TARGET) $(BUILDDIR)
+
+# Phony targets
+.PHONY: all run clean
+

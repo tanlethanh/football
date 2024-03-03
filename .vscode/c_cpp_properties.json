@@ -2,7 +2,7 @@
   "configurations": [
     {
       "name": "macos-clang-arm64",
-      "includePath": ["${workspaceFolder}/**"],
+      "includePath": ["${workspaceFolder}/src"],
       "macFrameworkPath": ["${workspaceFolder}/frameworks"],
       "compilerPath": "/usr/bin/clang",
       "cStandard": "${default}",
