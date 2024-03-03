@@ -94,6 +94,25 @@ void Game::handleEvents()
 
 void Game::update()
 {
+    int ballDirX, ballDirY;
+    ball->getDirs(&ballDirX, &ballDirY);
+    std::cout << ballDirX << " " << ballDirY << std::endl;
+    if (Collision::check(board->getLeftLineRect(), ball->getRect()))
+    {
+        ball->setVel(0);
+    }
+    if (Collision::check(board->getRightLineRect(), ball->getRect()))
+    {
+        ball->setVel(0);
+    }
+    if (Collision::check(board->getTopLineRect(), ball->getRect()))
+    {
+        ball->setDirs(ballDirX, -ballDirY);
+    }
+    if (Collision::check(board->getBottomLineRect(), ball->getRect()))
+    {
+        ball->setDirs(ballDirX, -ballDirY);
+    }
     if (Collision::check(player1->getRect(), ball->getRect()))
     {
         std::cout << "Player 1 hit!" << std::endl;

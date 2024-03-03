@@ -18,23 +18,24 @@ Ball::Ball(std::string path, int x, int y, int initVel, Alignment align)
 
     rect = getAlignRect(align, x, y, w, h);
 
-    dirX = rand() % 11 - 5;
+    dirX = -100 + rand() % (200 + 1);
     while (dirX == 0)
     {
-        dirX = rand() % 11 - 5;
+        dirX = -100 + rand() % (200 + 1);
     }
 
-    dirY = rand() % 11 - 5;
+    dirY = -100 + rand() % (200 + 1);
     while (dirY == 0)
     {
-        dirY = rand() % 11 - 5;
+        dirY = -100 + rand() % (200 + 1);
     }
 }
 
 void Ball::update()
 {
-    rect.x += (vel * 1.0) * (dirX * 1.0 / abs(dirY));
-    rect.y += (vel * 1.0) * (dirY * 1.0 / abs(dirX));
+    double rel = sqrt(pow(dirX, 2) + pow(dirY, 2));
+    rect.x += (vel * dirX * 1.0) / rel;
+    rect.y += (vel * dirY * 1.0) / rel;
 }
 
 void Ball::render()
@@ -45,4 +46,21 @@ void Ball::render()
 SDL_Rect Ball::getRect()
 {
     return rect;
+}
+
+void Ball::setVel(int newVel)
+{
+    vel = newVel;
+}
+
+void Ball::getDirs(int *x, int *y)
+{
+    *x = dirX;
+    *y = dirY;
+}
+
+void Ball::setDirs(int x, int y)
+{
+    dirX = x;
+    dirY = y;
 }

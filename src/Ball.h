@@ -11,6 +11,9 @@ public:
     void update();
     void render();
     SDL_Rect getRect();
+    void setVel(int vel);
+    void getDirs(int *x, int *y);
+    void setDirs(int x, int y);
 
 private:
     SDL_Rect rect;
