@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 
 Game *game = nullptr;
 
@@ -12,6 +13,8 @@ int main(int argc, char *argv[])
 
 	game = new Game();
 	game->init("Football", 964, 632, false);
+
+	std::cout << "starting game loop" << std::endl;
 
 	while (game->running())
 	{

@@ -1,11 +1,18 @@
 #include "Game.h"
-#include <sstream>
+#include <iostream>
+#include "Player.h"
+#include "Board.h"
+#include "Ball.h"
 
-SDL_Texture *bgTexr = nullptr;
+SDL_Renderer *Game::renderer = nullptr;
+
+Board *board = nullptr;
+Player *player1 = nullptr;
+Player *player2 = nullptr;
+Ball *ball = nullptr;
 
 Game::Game()
 {
-    renderer = nullptr;
     isRunning = false;
 }
 
@@ -32,7 +39,10 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         isRunning = true;
     }
 
-    bgTexr = IMG_LoadTexture(renderer, "assets/football_field.jpeg");
+    board = new Board("assets/football_field.jpeg");
+    player1 = new Player("assets/ronaldo.png", 0, height / 2, Alignment::LEFT_CENTER);
+    player2 = new Player("assets/messi.png", width, height / 2, Alignment::RIGHT_CENTER);
+    ball = new Ball("assets/ball.png", width / 2, height / 2, Alignment::CENTER_CENTER);
 }
 
 void Game::handleEvents()
@@ -58,13 +68,10 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
 
-    // handle render all the objects
-    // Assuming there is a texture for the background already loaded called backgroundTexture
-    SDL_Rect texr;
-    texr.x = 0;
-    texr.y = 0;
-    SDL_QueryTexture(bgTexr, NULL, NULL, &texr.w, &texr.h); // Query the width and height of the texture
-    SDL_RenderCopy(renderer, bgTexr, NULL, &texr);
+    board->render();
+    player1->render();
+    player2->render();
+    ball->render();
 
     SDL_RenderPresent(renderer);
 }
