@@ -23,6 +23,11 @@ Player::~Player()
 {
 }
 
+SDL_Rect Player::getRect()
+{
+    return rect;
+}
+
 void Player::render()
 {
     SDL_RenderCopy(Game::renderer, texr, NULL, &rect);

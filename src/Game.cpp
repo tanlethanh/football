@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Board.h"
 #include "Ball.h"
+#include "Collision.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 
@@ -42,7 +43,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     board = new Board("assets/football_field.jpeg");
     player1 = new Player("assets/ronaldo.png", 0, height / 2, Alignment::LEFT_CENTER);
     player2 = new Player("assets/messi.png", width, height / 2, Alignment::RIGHT_CENTER);
-    ball = new Ball("assets/ball.png", width / 2, height / 2, Alignment::CENTER_CENTER);
+    ball = new Ball("assets/ball.png", width / 2, height / 2, 2, Alignment::CENTER_CENTER);
 }
 
 void Game::handleEvents()
@@ -93,7 +94,17 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    // update the game state
+    if (Collision::check(player1->getRect(), ball->getRect()))
+    {
+        std::cout << "Player 1 hit!" << std::endl;
+    }
+
+    if (Collision::check(player2->getRect(), ball->getRect()))
+    {
+        std::cout << "Player 2 hit!" << std::endl;
+    }
+
+    ball->update();
 }
 
 void Game::render()

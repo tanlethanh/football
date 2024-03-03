@@ -8,6 +8,7 @@ public:
     Player(std::string name, int x, int y, Alignment align);
     ~Player();
 
+    SDL_Rect getRect();
     void update();
     void render();
     void move(int stepX, int stepY);
