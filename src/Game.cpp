@@ -47,15 +47,47 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 
 void Game::handleEvents()
 {
-    SDL_PollEvent(&event);
-
-    switch (event.type)
+    while (SDL_PollEvent(&event))
     {
-    case SDL_QUIT:
-        isRunning = false;
-        break;
-    default:
-        break;
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            isRunning = false;
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_a:
+                player1->move(-5, 0);
+                break;
+            case SDLK_d:
+                player1->move(5, 0);
+                break;
+            case SDLK_w:
+                player1->move(0, -5);
+                break;
+            case SDLK_s:
+                player1->move(0, 5);
+                break;
+            case SDLK_UP:
+                player2->move(0, -5);
+                break;
+            case SDLK_DOWN:
+                player2->move(0, 5);
+                break;
+            case SDLK_LEFT:
+                player2->move(-5, 0);
+                break;
+            case SDLK_RIGHT:
+                player2->move(5, 0);
+                break;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
     }
 }
 

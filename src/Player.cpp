@@ -2,8 +2,9 @@
 #include <SDL2_image/SDL_image.h>
 #include "Game.h"
 
-Player::Player(std::string path, int x, int y, Alignment align)
+Player::Player(std::string path, int x, int y, Alignment initAlign)
 {
+    align = initAlign;
     texr = IMG_LoadTexture(Game::renderer, path.c_str());
 
     int w, h;
@@ -25,4 +26,10 @@ Player::~Player()
 void Player::render()
 {
     SDL_RenderCopy(Game::renderer, texr, NULL, &rect);
+}
+
+void Player::move(int stepX, int stepY)
+{
+    rect.x += stepX;
+    rect.y += stepY;
 }

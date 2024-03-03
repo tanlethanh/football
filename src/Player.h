@@ -10,8 +10,10 @@ public:
 
     void update();
     void render();
+    void move(int stepX, int stepY);
 
 private:
+    Alignment align;
     SDL_Rect rect;
     SDL_Texture *texr;
     int x;
