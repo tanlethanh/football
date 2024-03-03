@@ -6,6 +6,7 @@ Ball::Ball(std::string path, int x, int y, int initVel, Alignment align)
 {
     vel = initVel;
     texr = IMG_LoadTexture(Game::renderer, path.c_str());
+    isColliding = false;
 
     int w, h;
     // Query the width and height of the texture

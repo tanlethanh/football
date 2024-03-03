@@ -43,52 +43,50 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     board = new Board("assets/football_field.jpeg");
     player1 = new Player("assets/ronaldo.png", 0, height / 2, Alignment::LEFT_CENTER);
     player2 = new Player("assets/messi.png", width, height / 2, Alignment::RIGHT_CENTER);
-    ball = new Ball("assets/ball.png", width / 2, height / 2, 2, Alignment::CENTER_CENTER);
+    ball = new Ball("assets/ball.png", width / 2, height / 2, 6, Alignment::CENTER_CENTER);
 }
 
 void Game::handleEvents()
 {
-    while (SDL_PollEvent(&event))
+    SDL_PollEvent(&event);
+    switch (event.type)
     {
-        switch (event.type)
+    case SDL_QUIT:
+        isRunning = false;
+        break;
+    case SDL_KEYDOWN:
+        switch (event.key.keysym.sym)
         {
-        case SDL_QUIT:
-            isRunning = false;
+        case SDLK_a:
+            player1->move(-10, 0);
             break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_a:
-                player1->move(-5, 0);
-                break;
-            case SDLK_d:
-                player1->move(5, 0);
-                break;
-            case SDLK_w:
-                player1->move(0, -5);
-                break;
-            case SDLK_s:
-                player1->move(0, 5);
-                break;
-            case SDLK_UP:
-                player2->move(0, -5);
-                break;
-            case SDLK_DOWN:
-                player2->move(0, 5);
-                break;
-            case SDLK_LEFT:
-                player2->move(-5, 0);
-                break;
-            case SDLK_RIGHT:
-                player2->move(5, 0);
-                break;
-            default:
-                break;
-            }
+        case SDLK_d:
+            player1->move(10, 0);
+            break;
+        case SDLK_w:
+            player1->move(0, -10);
+            break;
+        case SDLK_s:
+            player1->move(0, 10);
+            break;
+        case SDLK_UP:
+            player2->move(0, -10);
+            break;
+        case SDLK_DOWN:
+            player2->move(0, 10);
+            break;
+        case SDLK_LEFT:
+            player2->move(-10, 0);
+            break;
+        case SDLK_RIGHT:
+            player2->move(10, 0);
             break;
         default:
             break;
         }
+        break;
+    default:
+        break;
     }
 }
 
@@ -96,31 +94,50 @@ void Game::update()
 {
     int ballDirX, ballDirY;
     ball->getDirs(&ballDirX, &ballDirY);
-    std::cout << ballDirX << " " << ballDirY << std::endl;
+
     if (Collision::check(board->getLeftLineRect(), ball->getRect()))
     {
         ball->setVel(0);
     }
-    if (Collision::check(board->getRightLineRect(), ball->getRect()))
+    else if (Collision::check(board->getRightLineRect(), ball->getRect()))
     {
         ball->setVel(0);
     }
-    if (Collision::check(board->getTopLineRect(), ball->getRect()))
+    else if (Collision::check(board->getTopLineRect(), ball->getRect()))
     {
-        ball->setDirs(ballDirX, -ballDirY);
+        if (!ball->isColliding)
+        {
+            ball->setDirs(ballDirX, -ballDirY);
+            ball->isColliding = true;
+        }
     }
-    if (Collision::check(board->getBottomLineRect(), ball->getRect()))
+    else if (Collision::check(board->getBottomLineRect(), ball->getRect()))
     {
-        ball->setDirs(ballDirX, -ballDirY);
+        if (!ball->isColliding)
+        {
+            ball->setDirs(ballDirX, -ballDirY);
+            ball->isColliding = true;
+        }
     }
-    if (Collision::check(player1->getRect(), ball->getRect()))
+    else if (Collision::check(player1->getRect(), ball->getRect()))
     {
-        std::cout << "Player 1 hit!" << std::endl;
+        if (!ball->isColliding)
+        {
+            ball->setDirs(-ballDirX, ballDirY);
+            ball->isColliding = true;
+        }
     }
-
-    if (Collision::check(player2->getRect(), ball->getRect()))
+    else if (Collision::check(player2->getRect(), ball->getRect()))
     {
-        std::cout << "Player 2 hit!" << std::endl;
+        if (!ball->isColliding)
+        {
+            ball->setDirs(-ballDirX, ballDirY);
+            ball->isColliding = true;
+        }
+    }
+    else
+    {
+        ball->isColliding = false;
     }
 
     ball->update();

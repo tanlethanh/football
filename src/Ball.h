@@ -14,6 +14,7 @@ public:
     void setVel(int vel);
     void getDirs(int *x, int *y);
     void setDirs(int x, int y);
+    bool isColliding;
 
 private:
     SDL_Rect rect;
