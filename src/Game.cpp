@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "Ball.h"
 #include "Collision.h"
+#include "Score.h"
 
 SDL_Renderer *Game::renderer = nullptr;
 
@@ -11,6 +12,7 @@ Board *board = nullptr;
 Player *player1 = nullptr;
 Player *player2 = nullptr;
 Ball *ball = nullptr;
+Score *score = nullptr;
 
 Game::Game()
 {
@@ -40,10 +42,16 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
         isRunning = true;
     }
 
+    if (TTF_Init() == -1)
+    {
+        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+    }
+
     board = new Board("assets/football_field.jpeg");
     player1 = new Player("assets/ronaldo.png", 0, height / 2, Alignment::LEFT_CENTER);
     player2 = new Player("assets/messi.png", width, height / 2, Alignment::RIGHT_CENTER);
     ball = new Ball("assets/ball.png", width / 2, height / 2, 6, Alignment::CENTER_CENTER);
+    score = new Score(width / 2 - 20, 80, "Ronaldo", "Messi", Alignment::CENTER_CENTER);
 }
 
 void Game::handleEvents()
@@ -141,6 +149,7 @@ void Game::update()
     }
 
     ball->update();
+    score->update();
 }
 
 void Game::render()
@@ -151,6 +160,7 @@ void Game::render()
     player1->render();
     player2->render();
     ball->render();
+    score->render();
 
     SDL_RenderPresent(renderer);
 }
@@ -159,5 +169,10 @@ void Game::clean()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+
+    TTF_CloseFont(score->font);
+
     SDL_Quit();
+    TTF_Quit();
+    IMG_Quit();
 }

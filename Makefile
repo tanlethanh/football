@@ -9,7 +9,7 @@ CXXFLAGS := -Wall -F $(rootdir)/frameworks
 LDFLAGS := -F $(rootdir)/frameworks -Wl,-rpath,$(rootdir)/frameworks
 
 # List of frameworks to link against
-FRAMEWORKS := -framework SDL2 -framework SDL2_image
+FRAMEWORKS := -framework SDL2 -framework SDL2_image -framework SDL2_ttf
 
 # Define the name of the executable
 TARGET := main
