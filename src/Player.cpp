@@ -17,6 +17,23 @@ Player::Player(std::string path, int x, int y, Alignment initAlign)
     h = static_cast<int>(h * scaleFactor);
 
     rect = getAlignRect(align, x, y, w, h);
+    head.x = rect.x;
+    head.y = rect.y;
+    head.w = rect.w;
+    head.h = rect.h / 5;
+    std::cout << head.x << " " << head.y << " " << head.w << " " << head.h << std::endl;
+
+    foot.x = rect.x;
+    foot.y = rect.y + (2.0 * rect.h / 3);
+    foot.w = rect.w;
+    foot.h = rect.h / 5;
+    std::cout << foot.x << " " << foot.y << " " << foot.w << " " << foot.h << std::endl;
+
+    body.x = rect.x;
+    body.y = rect.y + head.h;
+    body.w = rect.w;
+    body.h = rect.h - head.h - foot.h;
+    std::cout << body.x << " " << body.y << " " << body.w << " " << body.h << std::endl;
 }
 
 Player::~Player()

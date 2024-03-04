@@ -11,7 +11,6 @@ enum Alignment
 
 inline SDL_Rect getAlignRect(Alignment align, int x, int y, int w, int h)
 {
-    std::cout << x << " " << y << " " << w << " " << h << std::endl;
     SDL_Rect rect;
     if (align == Alignment::LEFT_CENTER)
     {

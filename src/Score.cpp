@@ -39,7 +39,6 @@ void Score::addScoreToPlayer2(int score)
 void Score::update()
 {
     std::string score = player1Name + " " + std::to_string(player1Score) + " - " + std::to_string(player2Score) + " " + player2Name;
-    std::cout << score.c_str() << std::endl;
     SDL_Surface *surfaceMessage = TTF_RenderText_Solid(font, score.c_str(), color);
     if (surfaceMessage == NULL)
     {

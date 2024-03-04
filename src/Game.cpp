@@ -113,7 +113,7 @@ void Game::update()
     {
         if (ball->getVel() != 0)
         {
-            score->addScoreToPlayer1(1);
+            score->addScoreToPlayer2(1);
             ball->setVel(0);
         }
     }
@@ -121,7 +121,7 @@ void Game::update()
     {
         if (ball->getVel() != 0)
         {
-            score->addScoreToPlayer2(1);
+            score->addScoreToPlayer1(1);
             ball->setVel(0);
         }
     }
@@ -145,7 +145,26 @@ void Game::update()
     {
         if (!ball->isColliding)
         {
-            ball->setDirs(-ballDirX, ballDirY);
+            if (Collision::check(player1->head, ball->getRect()))
+            {
+                std::cout << "head 1" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY - 20);
+            }
+            else if (Collision::check(player1->body, ball->getRect()))
+            {
+                std::cout << "body 1" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY);
+            }
+            else if (Collision::check(player1->foot, ball->getRect()))
+            {
+                std::cout << "foot 1" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY + 20);
+            }
+            else
+            {
+                std::cout << "else 1" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY);
+            }
             ball->isColliding = true;
         }
     }
@@ -153,7 +172,26 @@ void Game::update()
     {
         if (!ball->isColliding)
         {
-            ball->setDirs(-ballDirX, ballDirY);
+            if (Collision::check(player2->head, ball->getRect()))
+            {
+                std::cout << "head 2" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY - 20);
+            }
+            else if (Collision::check(player2->body, ball->getRect()))
+            {
+                std::cout << "body 2" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY);
+            }
+            else if (Collision::check(player2->foot, ball->getRect()))
+            {
+                std::cout << "foot 2" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY + 20);
+            }
+            else
+            {
+                std::cout << "else 2" << std::endl;
+                ball->setDirs(-ballDirX, ballDirY);
+            }
             ball->isColliding = true;
         }
     }

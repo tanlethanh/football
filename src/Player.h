@@ -13,6 +13,10 @@ public:
     void render();
     void move(int stepX, int stepY);
 
+    SDL_Rect head;
+    SDL_Rect body;
+    SDL_Rect foot;
+
 private:
     Alignment align;
     SDL_Rect rect;
