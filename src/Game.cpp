@@ -65,6 +65,12 @@ void Game::handleEvents()
     case SDL_KEYDOWN:
         switch (event.key.keysym.sym)
         {
+        case SDLK_r:
+            if (ball->getVel() == 0)
+            {
+                ball->reset();
+            }
+            break;
         case SDLK_a:
             player1->move(-10, 0);
             break;
@@ -105,11 +111,19 @@ void Game::update()
 
     if (Collision::check(board->getLeftLineRect(), ball->getRect()))
     {
-        ball->setVel(0);
+        if (ball->getVel() != 0)
+        {
+            score->addScoreToPlayer1(1);
+            ball->setVel(0);
+        }
     }
     else if (Collision::check(board->getRightLineRect(), ball->getRect()))
     {
-        ball->setVel(0);
+        if (ball->getVel() != 0)
+        {
+            score->addScoreToPlayer2(1);
+            ball->setVel(0);
+        }
     }
     else if (Collision::check(board->getTopLineRect(), ball->getRect()))
     {
